@@ -7,14 +7,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.RadioButton
 import android.widget.Toast
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.Navigation
 import com.multimedia2018.ubaya.todoapp.R
-import com.multimedia2018.ubaya.todoapp.model.Todo
 import com.multimedia2018.ubaya.todoapp.viewmodel.DetailTodoViewModel
 import kotlinx.android.synthetic.main.fragment_create_todo.*
 
-class CreateTodoFragment : Fragment() {
+class EditTodoFragment : Fragment() {
     private lateinit var viewModel:DetailTodoViewModel
 
     override fun onCreateView(
@@ -29,15 +28,32 @@ class CreateTodoFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         viewModel = ViewModelProvider(this).get(DetailTodoViewModel::class.java)
+        val uuid = EditTodoFragmentArgs.fromBundle(requireArguments()).uuid
+
+        viewModel.fetch(uuid)
+        txtJudulTodo.text = "Edit ToDo"
+        btnCreateTodo.text = "Save Changes"
 
         btnCreateTodo.setOnClickListener {
             val radio = view.findViewById<RadioButton>(radioGroupPriority.checkedRadioButtonId)
+            viewModel.updateTodo(txtTitle.text.toString(), txtNotes.text.toString(), radio.tag.toString().toInt(), uuid)
 
-            var todo = Todo(txtTitle.text.toString(), txtNotes.text.toString(), radio.tag.toString().toInt())
-            viewModel.addTodo(todo)
-            Toast.makeText(it.context, "Todo created!", Toast.LENGTH_SHORT).show()
-
-            Navigation.findNavController(it).popBackStack()
+            Toast.makeText(view.context, "Todo Updated", Toast.LENGTH_SHORT).show()
         }
+
+        observeViewModel()
+    }
+
+    fun observeViewModel() {
+        viewModel.todoLD.observe(viewLifecycleOwner, Observer {
+            txtTitle.setText(it.title)
+            txtNotes.setText(it.notes)
+
+            when (it.priority) {
+                3 -> radioHigh.isChecked = true
+                2 -> radioMedium.isChecked = true
+                else -> radioLow.isChecked = true
+            }
+        })
     }
 }
