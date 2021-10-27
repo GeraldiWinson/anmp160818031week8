@@ -28,9 +28,10 @@ class EditTodoFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         viewModel = ViewModelProvider(this).get(DetailTodoViewModel::class.java)
-        val uuid = EditTodoFragmentArgs.fromBundle(requireArguments()).uuid
 
+        val uuid = EditTodoFragmentArgs.fromBundle(requireArguments()).uuid
         viewModel.fetch(uuid)
+
         txtJudulTodo.text = "Edit ToDo"
         btnCreateTodo.text = "Save Changes"
 

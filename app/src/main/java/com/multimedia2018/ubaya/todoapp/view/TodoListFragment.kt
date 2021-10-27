@@ -17,11 +17,19 @@ import kotlinx.android.synthetic.main.fragment_todo_list.*
 
 class TodoListFragment : Fragment() {
     private lateinit var viewModel:ListTodoViewModel
-    private var todoListAdapter:TodoListAdapter = TodoListAdapter(arrayListOf(),
-        { item -> doClick(item) })
 
-    fun doClick(item:Any) {
-        viewModel.clearTask(item as Todo)
+//Deleting Task? Then use this one. [Week 8]
+//private var todoListAdapter:TodoListAdapter = TodoListAdapter(arrayListOf(),
+//        { item -> doClick(item) })
+//    fun doClick(item:Any) {
+//        viewModel.clearTask(item as Todo)
+//    }
+
+//Removing Task, but NOT deleting? Use this one. [Homework Week 9]
+    private val todoListAdapter:TodoListAdapter = TodoListAdapter(arrayListOf(), { item -> doClick(item as Int) })
+
+    fun doClick(item:Int) {
+        viewModel.clearTask(item)
     }
 
     override fun onCreateView(

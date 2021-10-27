@@ -28,14 +28,23 @@ class ListTodoViewModel(application: Application):AndroidViewModel(application),
         }
     }
 
-    fun clearTask(todo: Todo) {
+//Clear Task Week 8
+//    fun clearTask(todo: Todo) {
+//        launch {
+//            val db = buildDB(getApplication())
+//            db.todoDao().deleteTodo(todo)
+//            todoLD.value = db.todoDao().selectAllTodo()
+//        }
+//    }
+
+    //Clear Task Week 9, edited
+    fun clearTask(uuid: Int) {
         launch {
             val db = buildDB(getApplication())
-            db.todoDao().deleteTodo(todo)
+            db.todoDao().updateIsDone(uuid)
             todoLD.value = db.todoDao().selectAllTodo()
         }
     }
-
 
     private var job = Job()
     override val coroutineContext: CoroutineContext
