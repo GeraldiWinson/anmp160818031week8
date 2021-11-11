@@ -88,7 +88,7 @@ class CreateTodoFragment : Fragment(), ButtonAddTodoClickListener, RadioClickLis
 
     override fun onButtonAddTodo(v: View) {
         val c = Calendar.getInstance()
-        c.set(year, month, day, hour, minute)
+        c.set(year, month, day, hour, minute, 0)
         val today = Calendar.getInstance()
         val dif = (c.timeInMillis/1000L) - (today.timeInMillis/1000L)
         dataBinding.todo!!.todo_date = (c.timeInMillis/1000L).toInt()
