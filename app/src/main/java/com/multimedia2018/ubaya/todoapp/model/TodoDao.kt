@@ -7,10 +7,6 @@ interface TodoDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertAll(vararg todo:Todo)
 
-//Query untuk Week 9, before Homework
-//    @Query("SELECT * FROM todo ORDER BY priority ASC")
-//    suspend fun selectAllTodo(): List<Todo>
-
     //Query untuk Week 9, after Homework
     @Query("SELECT * FROM todo WHERE is_done=0 ORDER BY priority ASC")
     suspend fun selectAllTodo(): List<Todo>
